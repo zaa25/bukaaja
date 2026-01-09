@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday 💛</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#FFE066 url("background.png") repeat;
+    background-size:220px;
+    animation:bgMove 40s linear infinite;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,0.35);
+    z-index:-1;
+}
+
+@keyframes bgMove{
+    from{background-position:0 0}
+    to{background-position:400px 600px}
+}
+
+/* PAGE */
+.page{
+    display:none;
+    width:90%;
+    max-width:380px;
+    animation:fadeSlide .5s ease;
+}
+.page.active{display:block}
+
+@keyframes fadeSlide{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* CARD */
+.card{
+    background:#fff;
+    border-radius:25px;
+    padding:20px 16px;
+    text-align:center;
+    border:4px dashed #FFB703;
+    animation:cardFloat 6s ease-in-out infinite;
+}
+@keyframes cardFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-4px)}
+}
+
+/* PHOTO */
+.photo{
+    width:140px;
+    height:140px;
+    margin:0 auto 12px;
+    border-radius:20px;
+    overflow:hidden;
+    border:4px solid #FFB703;
+    animation:float 4s ease-in-out infinite;
+}
+.photo img{width:100%;height:100%;object-fit:cover}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-6px)}
+}
+
+h1,h2{color:#FF9800;margin:8px 0}
+p{color:#555;font-size:14px;margin:6px 0}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:2px solid #FFB703;
+    font-size:14px;
+    margin-top:10px;
+    outline:none;
+}
+
+/* BUTTON */
+.btn{
+    margin-top:14px;
+    background:#FFB703;
+    color:white;
+    border:none;
+    padding:12px 28px;
+    border-radius:30px;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0 6px #e09f00;
+}
+.btn:active{
+    transform:translateY(3px);
+    box-shadow:0 3px #e09f00;
+}
+
+/* MESSAGE */
+.message{
+    background:#FFF7E0;
+    border-radius:20px;
+    padding:14px;
+    border:3px solid #FFB703;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+.message h2{margin:6px 0 10px}
+
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:8px;
+    height:8px;
+    top:-10px;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(110vh) rotate(360deg)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="card">
+    <div class="photo"><img src="nailong.jpg"></div>
+    <h1>Hiii lyy 💛</h1>
+    <p>Klik next yaa ✨</p>
+    <button class="btn" onclick="nextPage(2)">Next </button>
+  </div>
+</div>
+
+<!-- PAGE 2 : INPUT NAMA -->
+<div class="page" id="page2">
+  <div class="card">
+    <div class="photo"><img src="nailong2.jpg"></div>
+    <h2>Masukin nama panggilan you yak</h2>
+    <input type="text" id="nama" placeholder="isi disiniiii">
+    <button class="btn" onclick="saveName()">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 3 : INPUT UMUR -->
+<div class="page" id="page3">
+  <div class="card">
+    <div class="photo"><img src="nailong2.jpg"></div>
+    <h2>Masukin umur you sekarang yak 🎂</h2>
+    <input type="number" id="umur" placeholder="isi disiniii">
+    <button class="btn" onclick="saveAge()">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 4 : UCAPAN -->
+<div class="page" id="page4">
+  <div class="card">
+    <div class="photo"><img src="nailong3.jpg"></div>
+
+    <div class="message">
+      <h2>🎉 Happy Birthday <span id="showName"></span>! 🎉</h2>
+      <p>Cieee ulang tahun nih <span id="showAge"></span></p>
+      <p>sehat sehat terus yak,panjang umur,cita-cita nya tercapai semua Aamiin ✨</p>
+      <p>
+        Pergi ketaman memetik melati
+        Tak lupa pula membawa peti
+        Selamat ulang tahun kawanku lily
+        Semoga bahagia selalu menemani
+      </p>
+      <b>SEHAT SEHAT DELKUUU</b>
+    </div>
+
+    <button class="btn" onclick="nextPage(1)">Start Over 🤍</button>
+  </div>
+</div>
+
+<script>
+let userName="", userAge="";
+
+function nextPage(n){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page'+n).classList.add('active');
+    if(n===4) confetti();
+}
+
+function saveName(){
+    userName=document.getElementById("nama").value || "Kamu";
+    nextPage(3);
+}
+
+function saveAge(){
+    userAge=document.getElementById("umur").value || "?"
+    document.getElementById("showName").innerText=userName;
+    document.getElementById("showAge").innerText=userAge;
+    nextPage(4);
+}
+
+function confetti(){
+    for(let i=0;i<30;i++){
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.animationDuration=(Math.random()*3+2)+"s";
+        c.style.backgroundColor=
+        ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF"][Math.floor(Math.random()*4)];
+        document.body.appendChild(c);
+    }
+}
+</script>
+
+</body>
+</html>
